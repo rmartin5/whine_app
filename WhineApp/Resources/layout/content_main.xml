@@ -10,11 +10,42 @@
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/emo_im_yelling"
-        app:fabCustomSize="350dp"
+        app:fabCustomSize="360dp"
         app:maxImageSize="60dp"/>
 
+    <LinearLayout
+        android:layout_marginTop="380dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:text="History"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hist_button"
+            android:backgroundTint="#ff33b5e5"
+            android:textColor="#ffffffff" />
+        <TextView
+            android:text="Daily Count:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingLeft="120dp"
+            android:paddingTop="20px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff33b5e5"
+            android:id="@+id/daily_count"
+            android:textStyle="bold" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="#ff33b5e5"
+            android:id="@+id/count"
+            android:textStyle="bold" />
+    </LinearLayout>
 </RelativeLayout>
