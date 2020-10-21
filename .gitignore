@@ -1,0 +1,11 @@
+Backup/
+bin/
+obj/
+pub/
+temp/
+WhineApp/WhineApp.csproj.user
+*.suo
+*.user
+*.exe
+
+/templates
