@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using Android.App;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -7,6 +9,8 @@ using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Java.Util;
+using Random = System.Random;
 
 namespace WhineApp
 {
@@ -15,6 +19,7 @@ namespace WhineApp
     {
         private EditText count_text;
         private int count;
+        private ArrayList consequences;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -27,10 +32,21 @@ namespace WhineApp
 
             count_text = FindViewById<EditText>(Resource.Id.count);
             count = 0;
-            //TODO get current count of day.
+
             string s = ""+count;
             count_text.Text = s;
             //count_text.SetText(count);
+
+            // get external list of consequences
+            consequences = new ArrayList();
+            using (StreamReader reader = new StreamReader(Assets.Open("consequences.txt")))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    consequences.Add(line);
+                }
+            }
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += FabOnClick;
@@ -55,31 +71,21 @@ namespace WhineApp
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            // TODO change this to be randomized
             // TODO save this daily count and keep history.
 
             // Increment counts_of_day
             count++;
             count_text.Text = "" + count;
 
-            if(count == 5)
+            // give consequence for each 5 whines
+            if ((count % 5) == 0)
             {
+                // randomize output
+                Random rand = new Random();
+                string string_consequence = consequences.Get(rand.Next(consequences.Size())).ToString();
+                Console.WriteLine(string_consequence);
                 View view = (View)sender;
-                Snackbar.Make(view, "Do 5 pushups", Snackbar.LengthLong)
-                    .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-            }
-
-            if (count == 10)
-            {
-                View view = (View)sender;
-                Snackbar.Make(view, "Do 10 jumping jacks", Snackbar.LengthLong)
-                    .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-            }
-            
-            if (count == 15)
-            {
-                View view = (View)sender;
-                Snackbar.Make(view, "No computer", Snackbar.LengthLong)
+                Snackbar.Make(view, string_consequence, Snackbar.LengthLong)
                     .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
             }
         }
