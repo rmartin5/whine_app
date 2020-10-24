@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Android.App;
+using Android.Content;
 using Android.Content.Res;
 using Android.OS;
+using Android.Preferences;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
@@ -20,6 +23,8 @@ namespace WhineApp
         private EditText count_text;
         private int count;
         private ArrayList consequences;
+        public static string MyPREFERENCES = "MyPrefs" ;
+        ISharedPreferences history;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,9 +38,25 @@ namespace WhineApp
             count_text = FindViewById<EditText>(Resource.Id.count);
             count = 0;
 
+            //current date, mm/dd/yyyy (no time) used for key
+            DateTime date = DateTime.Now.Date;
+            string str_date = date.ToString("d");
+
+            history = PreferenceManager.GetDefaultSharedPreferences(this);
+
+            // check if today has previous history and load if does
+            if (history.Contains(str_date) == false)
+            {
+                ISharedPreferencesEditor editor = history.Edit();
+                editor.PutInt(str_date, count);
+                editor.Apply();
+            } else
+            {
+                count = history.GetInt(str_date, 0);
+            }
+
             string s = ""+count;
             count_text.Text = s;
-            //count_text.SetText(count);
 
             // get external list of consequences
             consequences = new ArrayList();
@@ -71,11 +92,18 @@ namespace WhineApp
 
         private void FabOnClick(object sender, EventArgs eventArgs)
         {
-            // TODO save this daily count and keep history.
-
             // Increment counts_of_day
             count++;
             count_text.Text = "" + count;
+
+            //current date
+            DateTime date = DateTime.Now.Date;
+            string str_date = date.ToString("d");
+
+            // save count internally
+            ISharedPreferencesEditor editor = history.Edit();
+            editor.PutInt(str_date, count);
+            editor.Apply();
 
             // give consequence for each 5 whines
             if ((count % 5) == 0)
