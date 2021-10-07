@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Whine_app</string>
+    <string name="button_whine">Button</string>
+    <string name="message">Hello world! Is this button working?</string>
+</resources>
