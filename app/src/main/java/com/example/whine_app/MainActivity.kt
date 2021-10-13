@@ -8,12 +8,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+val consequences = listOf<String>("5 pushups", "No computer for a day", "No tv for a day", "10 jumping jacks", "No dessert for a day", "10 pushups", "No internet for a day")
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var buttonWhine = findViewById<Button> (R.id.button_whine)
         var countView = findViewById<TextView>(R.id.tv_count_output)
+        var consequenceView = findViewById<TextView>(R.id.tv_consequence)
 
         // TODO pull from DB
         countView.setText("0")
@@ -26,7 +29,11 @@ class MainActivity : AppCompatActivity() {
             Log.i("Temp is ", temp.toString())
             countView?.text= temp.toString()
 
-            //TODO check frequency and reactive if needed
+            if((temp % 5) == 0) {
+                consequenceView?.text = consequences.random().toString()
+            } else {
+                consequenceView?.text = ""
+            }
         }
     }
 }
