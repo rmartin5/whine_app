@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 val consequences = listOf<String>("5 pushups", "No computer for a day", "No tv for a day", "10 jumping jacks", "No dessert for a day", "10 pushups", "No internet for a day")
+val whine_comments = listOf<String>("That's a lot of whines", "Is that the whine-bulance?", "Again?!", "Yikes!", "Another whine bites the dust", "Add on the whines")
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var countView: TextView
-    lateinit var buttonWhine: Button
     lateinit var consequenceView: TextView
+    lateinit var buttonWhine: Button
+    lateinit var buttonReset: Button
 
     companion object {
         const val COUNT_KEY = "COUNT_KEY"
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         buttonWhine = findViewById<Button> (R.id.button_whine)
+        buttonReset = findViewById<Button> (R.id.button_reset)
         countView = findViewById<TextView>(R.id.tv_count_output)
         consequenceView = findViewById<TextView>(R.id.tv_consequence)
 
@@ -36,10 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         buttonWhine.setOnClickListener()
         {
-            Log.i("MainTag", "OnClick")
-
-            // TODO update to a helpful static message
-            Toast.makeText(this@MainActivity, R.string.message, Toast.LENGTH_LONG).show()
+            Log.i("MainTag", "Whine OnClick")
+            
+            Toast.makeText(this@MainActivity, whine_comments.random().toString(), Toast.LENGTH_LONG).show()
 
             count++
 
@@ -48,6 +50,13 @@ class MainActivity : AppCompatActivity() {
             } else {
                 consequenceView.text = ""
             }
+        }
+
+        buttonReset.setOnClickListener()
+        {
+            Log.i("MainTag", "Reset OnClick")
+            count = 0
+            consequenceView.text = ""
         }
     }
 
